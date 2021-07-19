@@ -1,0 +1,17 @@
+{
+	"FileVersion": 3,
+	"EngineAssociation": "{A44F7D53-440A-9D5A-CBD2-9599D95C8AD9}",
+	"Category": "",
+	"Description": "",
+	"Modules": [
+		{
+			"Name": "TowerDefense",
+			"Type": "Runtime",
+			"LoadingPhase": "Default",
+			"AdditionalDependencies": [
+				"Engine",
+				"UMG"
+			]
+		}
+	]
+}

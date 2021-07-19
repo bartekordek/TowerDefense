@@ -1,0 +1,21 @@
+{
+	"folders": [
+		{
+			"name": "TowerDefense",
+			"path": "."
+		},
+		{
+			"name": "UE4",
+			"path": "E:\\Dev\\TowerDefense\\deps\\UnrealEngine"
+		}
+	],
+	"settings": {
+		"typescript.tsc.autoDetect": "off"
+	},
+	"extensions": {
+		"recommendations": [
+			"ms-vscode.cpptools",
+			"ms-dotnettools.csharp"
+		]
+	}
+}

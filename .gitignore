@@ -1,0 +1,10 @@
+.ddc
+.vs
+.vscode
+Binaries
+Intermediate
+Saved
+*.ddc
+Build
+.dccache
+*temp_folder*
