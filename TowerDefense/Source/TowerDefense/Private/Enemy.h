@@ -33,6 +33,8 @@ protected:
 private:
     void Move();
 
+    float GetSurfaceHeight();
+
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components", meta = (AllowPrivateAccess = "true"))
     UCapsuleComponent* CapsuleComp = nullptr;
 
@@ -63,4 +65,7 @@ private:
 
     UPROPERTY(EditAnywhere, Category = "Damage", meta = (AllowPrivateAccess = "true"))
     float BaseDamage = 25.f;
+
+    UPROPERTY(EditAnywhere, Category = "Position", meta = (AllowPrivateAccess = "true"))
+    float ZOffset = 100.f;
 };

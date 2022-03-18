@@ -67,20 +67,50 @@ void AEnemy::Move()
         if (NextPosition.IsSet())
         {
             FVector Dupa;
-            const FVector& TargetPosition = NextPosition.GetValue();
+            FVector TargetPosition = NextPosition.GetValue();
+            TargetPosition.Z = CurrentPos.Z;
             auto Result = TargetPosition - CurrentPos;
             Result.Normalize();
             Result *= MoveComponent;
             CurrentPos += Result;
+            CurrentPos.Z = 2048;
+
+            float Z = GetSurfaceHeight();
+            //UE_LOG(LogTemp, Warning, TEXT("CurrentPos: %s"), *CurrentPos.ToString());
+            UE_LOG(LogTemp, Warning, TEXT("Z: %f"), Z);
+            CurrentPos.Z = Z + ZOffset;
         }
     }
 
     //TODO: rotate this shiet.
     CurrentRotation.Pitch = RotVal;
     RotVal += 4.f;
-    
-    
-    //UE_LOG(LogTemp, Warning, TEXT("Rotation: [%s]"), *CurrentRotation.ToString());
+
+}
+
+float AEnemy::GetSurfaceHeight()
+{
+    UWorld* World{this->GetWorld()};
+    FHitResult HitResult;
+    if (World)
+    {
+        FVector StartLocation{CurrentPos.X, CurrentPos.Y, 2048};    // Raytrace starting point.
+        FVector EndLocation{CurrentPos.X, CurrentPos.Y, -1024};         // Raytrace end point.
+
+        // Raytrace for overlapping actors.
+        World->LineTraceSingleByObjectType(OUT HitResult, StartLocation, EndLocation,
+            FCollisionObjectQueryParams(ECollisionChannel::ECC_WorldStatic), FCollisionQueryParams());
+    }
+
+    if (HitResult.GetActor())
+    {
+        //UE_LOG(LogTemp, Warning, TEXT("HitResult: %s"), *HitResult.ToString());
+        return HitResult.ImpactPoint.Z;
+    }
+    else
+    {
+        return 0.f;
+    }
 }
 
 void AEnemy::MoveTo(const FVector& In)
