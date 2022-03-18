@@ -45,7 +45,11 @@ bool UWayPointHelper::ActorIsOnPoint(const AActor& Actor)
         Waypoints.Peek(CurrentWaypoint);
         Waypoints.Pop();
     }
-    auto Distance = CurrentWaypoint->GetDistanceTo(&Actor);
+    FVector ActorPosition = Actor.GetActorLocation();
+    FVector WaypointPosition = CurrentWaypoint->GetActorLocation();
+    // I want only X-Y.
+    auto Distance = FVector::DistXY(ActorPosition, WaypointPosition);
+    
     return Distance < Epsilon;
 }
 
