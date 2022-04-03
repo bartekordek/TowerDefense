@@ -63,10 +63,39 @@ void UTDGameInstance::HurtPlayer(float Value, AActor* DamageCauser)
     UGameplayStatics::ApplyDamage(InPlayerPawn, Value, nullptr, DamageCauser, UDamageType::StaticClass());
 }
 
-
 void UTDGameInstance::SpawnEnemy(TSubclassOf<AEnemy> EnemyType)
 {
     FVector Location(0.0f, 0.0f, 0.0f);
     FRotator Rotation(0.0f, 0.0f, 0.0f);
     GetWorld()->SpawnActor < AEnemy>(EnemyType, Location, Rotation);
+}
+
+UUserWidget* UTDGameInstance::CreateBuildMenu()
+{
+    if (!BuildWidget)
+    {
+        BuildWidget = CreateWidget<UUserWidget>(this, TypeOfBuildWidget, BuildWidgetname);
+        BuildWidget->AddToViewport();
+    }
+
+    return BuildWidget;
+}
+
+void UTDGameInstance::DestroyBuildMenu()
+{
+    if (BuildWidget)
+    {
+        BuildWidget->RemoveFromParent();
+        BuildWidget = nullptr;
+    }
+}
+
+void UTDGameInstance::ToggleBuildingBlock(bool enableBlock)
+{
+    BuildingBlocked = enableBlock;
+}
+
+bool UTDGameInstance::GetIsBuildingBlocked() const
+{
+    return BuildingBlocked;
 }
