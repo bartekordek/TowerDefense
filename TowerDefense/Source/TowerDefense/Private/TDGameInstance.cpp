@@ -5,6 +5,7 @@
 #include "Blueprint/UserWidget.h"
 #include "Kismet/GameplayStatics.h"
 #include "GameplayHUDC_CPP.h"
+#include "TurretTest.h"
 #include "TD_PlayerPawn.h"
 #include "Enemy.h"
 
@@ -98,4 +99,13 @@ void UTDGameInstance::ToggleBuildingBlock(bool enableBlock)
 bool UTDGameInstance::GetIsBuildingBlocked() const
 {
     return BuildingBlocked;
+}
+
+TMap<FString, TSubclassOf<ATurretBase>> UTDGameInstance::GetPossibleTypesOfTurretsToBuild()
+{
+    TMap<FString, TSubclassOf<ATurretBase>> Result;
+
+    Result.Add("Test Turret", ATurretTest::StaticClass());
+
+    return Result;
 }
