@@ -2,14 +2,14 @@
 
 #pragma once
 
-#include "Destroyable.h"
+#include "Turrets/TurretBase.h"
 #include "TurretTest.generated.h"
 
 class AProjectile;
 class UCapsuleComponent;
 
 UCLASS()
-class ATurretTest : public ADestroyable
+class ATurretTest : public ATurretBase
 {
     GENERATED_BODY()
 

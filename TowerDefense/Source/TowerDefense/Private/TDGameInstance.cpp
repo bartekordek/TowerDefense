@@ -5,6 +5,7 @@
 #include "Blueprint/UserWidget.h"
 #include "Kismet/GameplayStatics.h"
 #include "GameplayHUDC_CPP.h"
+#include "TurretTest.h"
 #include "TD_PlayerPawn.h"
 #include "Enemy.h"
 
@@ -63,10 +64,48 @@ void UTDGameInstance::HurtPlayer(float Value, AActor* DamageCauser)
     UGameplayStatics::ApplyDamage(InPlayerPawn, Value, nullptr, DamageCauser, UDamageType::StaticClass());
 }
 
-
 void UTDGameInstance::SpawnEnemy(TSubclassOf<AEnemy> EnemyType)
 {
     FVector Location(0.0f, 0.0f, 0.0f);
     FRotator Rotation(0.0f, 0.0f, 0.0f);
     GetWorld()->SpawnActor < AEnemy>(EnemyType, Location, Rotation);
+}
+
+UUserWidget* UTDGameInstance::CreateBuildMenu()
+{
+    if (!BuildWidget)
+    {
+        BuildWidget = CreateWidget<UUserWidget>(this, TypeOfBuildWidget, BuildWidgetname);
+        BuildWidget->AddToViewport();
+    }
+
+    return BuildWidget;
+}
+
+void UTDGameInstance::DestroyBuildMenu()
+{
+    if (BuildWidget)
+    {
+        BuildWidget->RemoveFromParent();
+        BuildWidget = nullptr;
+    }
+}
+
+void UTDGameInstance::ToggleBuildingBlock(bool enableBlock)
+{
+    BuildingBlocked = enableBlock;
+}
+
+bool UTDGameInstance::GetIsBuildingBlocked() const
+{
+    return BuildingBlocked;
+}
+
+TMap<FString, TSubclassOf<ATurretBase>> UTDGameInstance::GetPossibleTypesOfTurretsToBuild()
+{
+    TMap<FString, TSubclassOf<ATurretBase>> Result;
+
+    Result.Add("Test Turret", ATurretTest::StaticClass());
+
+    return Result;
 }

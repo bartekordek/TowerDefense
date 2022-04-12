@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Engine/GameInstance.h"
+#include "Turrets/TurretBase.h"
 #include "TDGameInstance.generated.h"
 
 class UUserWidget;
@@ -51,10 +52,34 @@ public:
     UFUNCTION(BlueprintCallable)
     void SpawnEnemy(TSubclassOf<AEnemy> EnemyType);
 
+    UPROPERTY(EditAnywhere)
+    TSubclassOf<UUserWidget> TypeOfBuildWidget;
+
+    UFUNCTION(BlueprintCallable)
+    UUserWidget* CreateBuildMenu();
+
+    UFUNCTION(BlueprintCallable)
+    void DestroyBuildMenu();
+
+    UFUNCTION(BlueprintCallable)
+    void ToggleBuildingBlock(bool enableBlock);
+
+    UFUNCTION(BlueprintCallable)
+    bool GetIsBuildingBlocked() const;
+
+    UFUNCTION(BlueprintCallable)
+    TMap<FString, TSubclassOf<ATurretBase>> GetPossibleTypesOfTurretsToBuild();
+
 protected:
 private:
     UUserWidget* MenuWidget = nullptr;
+    UUserWidget* BuildWidget = nullptr;
     UGameplayHUDC_CPP* HUDWidget = nullptr;
     ATD_PlayerPawn* PlayerPawn = nullptr;
 
+    FName BuildWidgetname = L"BuildWidget";
+
+    bool BuildingBlocked = false;
+
+    TMap<FString, TSubclassOf<ATurretBase>> TypesOfTurretsAll;
 };
