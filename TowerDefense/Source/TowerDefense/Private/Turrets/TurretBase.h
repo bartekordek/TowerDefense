@@ -16,6 +16,15 @@ class ATurretBase : public ADestroyable
 	GENERATED_BODY()
 	
 public:
+    UFUNCTION(BlueprintCallable)
+    int32 GetCost() const;
+
+    UFUNCTION(BlueprintCallable)
+    void SetCost(int32 InCost);
+
+    virtual static FString GetName();
+
 protected:
 private:
+    int32 m_Cost = 0;
 };

@@ -107,5 +107,18 @@ TMap<FString, TSubclassOf<ATurretBase>> UTDGameInstance::GetPossibleTypesOfTurre
 
     Result.Add("Test Turret", ATurretTest::StaticClass());
 
+    for (TObjectIterator<UClass> It; It; ++It)
+    {
+        if (It->IsChildOf(ATurretTest::StaticClass()) && !It->HasAnyClassFlags(CLASS_Abstract))
+        {
+            UClass* ClassType = *It;
+            //const FString ClassName = ClassType->GetName();
+            ATurretBase* TurretBase = Cast<ATurretBase>(ClassType);
+            const FString ClassName = TurretBase->GetName();
+            Result.Add(ClassName, ClassType);
+            UE_LOG(LogTemp, Warning, TEXT("Adding class: [%s]"), *ClassName);
+        }
+    }
+
     return Result;
 }

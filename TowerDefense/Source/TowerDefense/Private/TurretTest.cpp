@@ -155,3 +155,8 @@ AActor* ATurretTest::GetNearestEnemy()
 
     return Result;
 }
+
+FString ATurretTest::GetName()
+{
+    return "Small Turret";
+}
