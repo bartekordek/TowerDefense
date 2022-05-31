@@ -22,8 +22,6 @@ public:
     UFUNCTION(BlueprintCallable)
     void SetCost(int32 InCost);
 
-    virtual static FString GetName();
-
 protected:
 private:
     int32 m_Cost = 0;

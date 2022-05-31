@@ -36,8 +36,6 @@ private:
 
     void BeginDeathState() override;
 
-    static FString GetName() override;
-
     APlayerController* PlayerControllerRef = nullptr;
 
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components", meta = (AllowPrivateAccess = "true"))

@@ -8,6 +8,7 @@
 #include "TurretTest.h"
 #include "TD_PlayerPawn.h"
 #include "Enemy.h"
+#include "UObject/Class.h"
 
 UTDGameInstance::UTDGameInstance()
 {
@@ -101,24 +102,35 @@ bool UTDGameInstance::GetIsBuildingBlocked() const
     return BuildingBlocked;
 }
 
+void UTDGameInstance::RegisterTurretType(const FString& ClassName, TSubclassOf<ATurretBase> TurretType)
+{
+    bool Contains = TypesOfTurretsAll.Contains(ClassName);
+    if (Contains)
+    {
+
+    }
+    else
+    {
+        TypesOfTurretsAll.Add(ClassName, TurretType);
+    }
+}
+
 TMap<FString, TSubclassOf<ATurretBase>> UTDGameInstance::GetPossibleTypesOfTurretsToBuild()
 {
-    TMap<FString, TSubclassOf<ATurretBase>> Result;
+    return TypesOfTurretsAll;
+}
 
-    Result.Add("Test Turret", ATurretTest::StaticClass());
+void UTDGameInstance::ResetTurretTypes()
+{
+    TypesOfTurretsAll.Empty();
+}
 
-    for (TObjectIterator<UClass> It; It; ++It)
-    {
-        if (It->IsChildOf(ATurretTest::StaticClass()) && !It->HasAnyClassFlags(CLASS_Abstract))
-        {
-            UClass* ClassType = *It;
-            //const FString ClassName = ClassType->GetName();
-            ATurretBase* TurretBase = Cast<ATurretBase>(ClassType);
-            const FString ClassName = TurretBase->GetName();
-            Result.Add(ClassName, ClassType);
-            UE_LOG(LogTemp, Warning, TEXT("Adding class: [%s]"), *ClassName);
-        }
-    }
+void UTDGameInstance::SetCashValue(int32 Value)
+{
+    CurrentCashValue = Value;
+}
 
-    return Result;
+int32 UTDGameInstance::GetCurrentCashValue()
+{
+    return CurrentCashValue;
 }

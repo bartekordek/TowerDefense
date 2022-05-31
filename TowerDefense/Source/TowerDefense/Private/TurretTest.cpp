@@ -3,6 +3,7 @@
 #include "Projectile.h"
 #include <limits>
 #include "Kismet/GameplayStatics.h"
+#include "TDGameInstance.h"
 #include "Components/CapsuleComponent.h"
 
 // Sets default values
@@ -154,9 +155,4 @@ AActor* ATurretTest::GetNearestEnemy()
     }
 
     return Result;
-}
-
-FString ATurretTest::GetName()
-{
-    return "Small Turret";
 }

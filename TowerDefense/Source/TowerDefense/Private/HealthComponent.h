@@ -8,6 +8,8 @@
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnPlayerHitDelegate, float, NewBaseHealth);
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnDeathDelegate);
+
 
 UCLASS(ClassGroup = (Custom), meta = (BlueprintSpawnableComponent))
 class UHealthComponent : public UActorComponent
@@ -32,7 +34,8 @@ public:
     UPROPERTY(BlueprintAssignable)
     FOnPlayerHitDelegate OnPlayerHitDelegate;
 
-
+    UPROPERTY(BlueprintAssignable)
+    FOnDeathDelegate OnDeathDelegate;
 
 protected:
     // Called when the game starts

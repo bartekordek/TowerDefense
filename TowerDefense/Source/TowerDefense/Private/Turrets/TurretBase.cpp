@@ -12,8 +12,3 @@ void ATurretBase::SetCost(int32 InCost)
 {
     m_Cost = InCost;
 }
-
-FString ATurretBase::GetName()
-{
-    return TEXT("NONE");
-}

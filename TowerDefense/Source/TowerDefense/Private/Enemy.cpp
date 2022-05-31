@@ -5,7 +5,6 @@
 #include "Kismet/GameplayStatics.h"
 #include "WayPointHelper.h"
 #include "Components/CapsuleComponent.h"
-#include "Kismet/GameplayStatics.h"
 #include "TDGameInstance.h"
 
 #include <limits>
@@ -117,7 +116,7 @@ void AEnemy::MoveTo(const FVector& In)
 {
     CurrentPos = In;
     SetActorRelativeLocation(CurrentPos, false, nullptr, ETeleportType::None);
-    
+
 }
 
 // Called every frame
