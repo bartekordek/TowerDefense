@@ -8,6 +8,7 @@
 #include "TurretTest.h"
 #include "TD_PlayerPawn.h"
 #include "Enemy.h"
+#include "UObject/Class.h"
 
 UTDGameInstance::UTDGameInstance()
 {
@@ -101,11 +102,35 @@ bool UTDGameInstance::GetIsBuildingBlocked() const
     return BuildingBlocked;
 }
 
+void UTDGameInstance::RegisterTurretType(const FString& ClassName, TSubclassOf<ATurretBase> TurretType)
+{
+    bool Contains = TypesOfTurretsAll.Contains(ClassName);
+    if (Contains)
+    {
+
+    }
+    else
+    {
+        TypesOfTurretsAll.Add(ClassName, TurretType);
+    }
+}
+
 TMap<FString, TSubclassOf<ATurretBase>> UTDGameInstance::GetPossibleTypesOfTurretsToBuild()
 {
-    TMap<FString, TSubclassOf<ATurretBase>> Result;
+    return TypesOfTurretsAll;
+}
 
-    Result.Add("Test Turret", ATurretTest::StaticClass());
+void UTDGameInstance::ResetTurretTypes()
+{
+    TypesOfTurretsAll.Empty();
+}
 
-    return Result;
+void UTDGameInstance::SetCashValue(int32 Value)
+{
+    CurrentCashValue = Value;
+}
+
+int32 UTDGameInstance::GetCurrentCashValue()
+{
+    return CurrentCashValue;
 }

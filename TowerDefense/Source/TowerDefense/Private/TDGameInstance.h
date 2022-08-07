@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "Engine/GameInstance.h"
 #include "Turrets/TurretBase.h"
+#include "Containers/Map.h"
 #include "TDGameInstance.generated.h"
 
 class UUserWidget;
@@ -12,9 +13,6 @@ class UGameplayHUDC_CPP;
 class ATD_PlayerPawn;
 class AEnemy;
 
-/**
- *
- */
 UCLASS()
 class UTDGameInstance : public UGameInstance
 {
@@ -70,6 +68,18 @@ public:
     UFUNCTION(BlueprintCallable)
     TMap<FString, TSubclassOf<ATurretBase>> GetPossibleTypesOfTurretsToBuild();
 
+    UFUNCTION(BlueprintCallable)
+    void RegisterTurretType(const FString& ClassName, TSubclassOf<ATurretBase> TurretType);
+
+    UFUNCTION(BlueprintCallable)
+    void ResetTurretTypes();
+
+    UFUNCTION(BlueprintCallable)
+    int32 GetCurrentCashValue();
+
+    UFUNCTION(BlueprintCallable)
+    void SetCashValue(int32 Value);
+
 protected:
 private:
     UUserWidget* MenuWidget = nullptr;
@@ -82,4 +92,6 @@ private:
     bool BuildingBlocked = false;
 
     TMap<FString, TSubclassOf<ATurretBase>> TypesOfTurretsAll;
+
+    int32 CurrentCashValue = 0;
 };

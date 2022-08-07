@@ -12,12 +12,14 @@
 UCLASS()
 class UGameplayHUDC_CPP : public UUserWidget
 {
-	GENERATED_BODY()
-	
+    GENERATED_BODY()
 
 public:
     UFUNCTION(BlueprintCallable, BlueprintImplementableEvent)
     void SetBaseHealth(float Value);
+
+    UFUNCTION(BlueprintCallable, BlueprintImplementableEvent)
+    void SetCashValue(int32 CashIn);
 
 protected:
 private:
