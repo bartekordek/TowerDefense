@@ -65,7 +65,6 @@ void AEnemy::Move()
         TOptional<FVector> NextPosition = WayPointHelper->GetNextPosition();
         if (NextPosition.IsSet())
         {
-            FVector Dupa;
             FVector TargetPosition = NextPosition.GetValue();
             TargetPosition.Z = CurrentPos.Z;
             auto Result = TargetPosition - CurrentPos;

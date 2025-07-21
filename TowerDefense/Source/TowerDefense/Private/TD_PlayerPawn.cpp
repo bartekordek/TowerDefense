@@ -56,6 +56,7 @@ void ATD_PlayerPawn::BeginPlay()
 
 void ATD_PlayerPawn::EndPlay(const EEndPlayReason::Type EndPlayReason)
 {
+    APawn::EndPlay(EndPlayReason);
     UE_LOG(LogTemp, Warning, TEXT("EndPlay: %s"), *FullName);
 }
 

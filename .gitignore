@@ -1,10 +1,11 @@
+.dccache
 .ddc
 .vs
 .vscode
+*.ddc
+*temp_folder*
 Binaries
+Build
+DerivedDataCache
 Intermediate
 Saved
-*.ddc
-Build
-.dccache
-*temp_folder*
