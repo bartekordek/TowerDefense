@@ -7,6 +7,7 @@
 #include "Kismet/GameplayStatics.h"
 #include "Blueprint/WidgetBlueprintLibrary.h"
 #include "GameplayHUDC_CPP.h"
+#include "GameFramework/PlayerStart.h"
 
 // Sets default values
 ATD_PlayerPawn::ATD_PlayerPawn()
@@ -26,16 +27,6 @@ ATD_PlayerPawn::ATD_PlayerPawn()
     FullName = GetFullName();
 
     UE_LOG(LogTemp, Warning, TEXT("ATD_PlayerPawn(): %s"), *FullName);
-
-    //TArray<UUserWidget*> HUDWidgets;
-    //UWidgetBlueprintLibrary::GetAllWidgetsOfClass(this, HUDWidgets, UGameplayHUDC_CPP::StaticClass());
-
-    //if (HUDWidgets.Num() > 0)
-    //{
-    //    UUserWidget* HUDB = HUDWidgets[0];
-    //    HUD = Cast<UGameplayHUDC_CPP>(HUDB);
-    //}
-
 }
 
 // Called when the game starts or when spawned
@@ -43,12 +34,16 @@ void ATD_PlayerPawn::BeginPlay()
 {
     Super::BeginPlay();
 
-
-
     TArray<AActor*> FoundActors;
-    //UGameplayStatics::GetAllActorsOfClass(GetWorld(), YourClass::StaticClass(), FoundActors);
-  
-    
+    UGameplayStatics::GetAllActorsOfClass(GetWorld(), APlayerStart::StaticClass(), FoundActors);
+    if (FoundActors.IsEmpty() == false)
+    {
+        const APlayerStart* PlayerStart = Cast<APlayerStart>(FoundActors[0]);
+        const FTransform& PlayerStartTransform = PlayerStart->GetActorTransform();
+        const FVector PlayerStartVector = PlayerStartTransform.GetTranslation();
+        MoveTo( PlayerStartVector );
+    }
+
     UE_LOG(LogTemp, Warning, TEXT("BeginPlay: %s"), *FullName);
 
     started = true;
