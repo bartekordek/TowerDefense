@@ -8,6 +8,10 @@
 #include "Blueprint/WidgetBlueprintLibrary.h"
 #include "GameplayHUDC_CPP.h"
 #include "GameFramework/PlayerStart.h"
+#include "MassEntityTemplate.h"
+#include "MassEntityConfigAsset.h"
+#include "MassEntitySubsystem.h"
+#include "MassSpawnerSubsystem.h"
 
 // Sets default values
 ATD_PlayerPawn::ATD_PlayerPawn()
@@ -105,6 +109,7 @@ void ATD_PlayerPawn::SetupInputComponent()
         PlayerInputComponent->BindAction("MouseRight", EInputEvent::IE_Released, this, &ATD_PlayerPawn::SetMouseClickedRightOff);
         PlayerInputComponent->BindAction("Jump", EInputEvent::IE_Pressed, this, &ATD_PlayerPawn::JumpPressed);
         PlayerInputComponent->BindAction("Jump", EInputEvent::IE_Released, this, &ATD_PlayerPawn::JumpReleased);
+        PlayerInputComponent->BindAction("ActivateItem", EInputEvent::IE_Released, this, &ATD_PlayerPawn::ActivateItemPressed);
 
         PlayerInputComponent->BindAction("GamepadFaceButtonBottom", EInputEvent::IE_Released, this, &ATD_PlayerPawn::OnPressed);
 
@@ -207,6 +212,40 @@ void ATD_PlayerPawn::MouseWheel(float Value)
         return;
     }
     Position.Z -= Value * 2.56;
+}
+
+void ATD_PlayerPawn::ActivateItemPressed()
+{
+    UE_LOG(LogTemp, Warning, TEXT("ATD_PlayerPawn::ActivateItemPressed()"));
+    ActivateItemPressedBP();
+}
+
+FMSEntityViewBPWrapper ATD_PlayerPawn::SpawnEntityFromEntityConfig(
+    UMassEntityConfigAsset* MassEntityConfig, EReturnSuccess& ReturnBranch)
+{
+    if (!MassEntityConfig)
+    {
+        ReturnBranch = EReturnSuccess::Failure;
+        return FMSEntityViewBPWrapper();
+    }
+
+    const FMassEntityTemplate& EntityTemplate =
+        MassEntityConfig->GetConfig().GetOrCreateEntityTemplate(*GetWorld());
+
+    FMassEntityManager& EntityManager =
+        GetWorld()->GetSubsystem<UMassEntitySubsystem>()->GetMutableEntityManager();
+    auto SpawnerSubsystem = GetWorld()->GetSubsystem<UMassSpawnerSubsystem>();
+
+    TArray<FMassEntityHandle> Entities;
+    SpawnerSubsystem->SpawnEntities(EntityTemplate.GetTemplateID(), 1, FStructView(), TSubclassOf<UMassProcessor>(), Entities);
+
+    // If no observers did anything, we can just assume the archetype is the same as our template
+    FMSEntityViewBPWrapper NewEntityWrapper;
+    NewEntityWrapper.EntityView = FMassEntityView(EntityManager, Entities[0]);
+
+    ReturnBranch = EReturnSuccess::Success;
+
+    return NewEntityWrapper;
 }
 
 void ATD_PlayerPawn::JumpPressed()

@@ -1,6 +1,6 @@
 {
 	"FileVersion": 3,
-	"EngineAssociation": "{A44F7D53-440A-9D5A-CBD2-9599D95C8AD9}",
+	"EngineAssociation": "{0B6EF7F1-4F84-E7D5-FC5A-518028CB7EFE}",
 	"Category": "",
 	"Description": "",
 	"Modules": [
@@ -10,8 +10,29 @@
 			"LoadingPhase": "Default",
 			"AdditionalDependencies": [
 				"Engine",
-				"UMG"
+				"UMG",
+				"MassSpawner",
+				"AIModule",
+				"MassEntity"
 			]
+		}
+	],
+	"Plugins": [
+		{
+			"Name": "MassAI",
+			"Enabled": true
+		},
+		{
+			"Name": "MassCrowd",
+			"Enabled": true
+		},
+		{
+			"Name": "MassEntity",
+			"Enabled": true
+		},
+		{
+			"Name": "MassGameplay",
+			"Enabled": true
 		}
 	],
 	"TargetPlatforms": [

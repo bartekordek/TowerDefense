@@ -1,7 +1,6 @@
-.vs
-.vscode
-Content
-DerivedDataCache
-Intermediate
-Saved
-Script
+/.vs
+/.vscode
+/Content
+/DerivedDataCache
+/Intermediate
+/Saved

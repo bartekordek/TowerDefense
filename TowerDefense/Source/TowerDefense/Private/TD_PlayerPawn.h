@@ -5,12 +5,38 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Pawn.h"
 #include "HAL/ThreadSafeBool.h"
+#include "MassEntityView.h"
 #include "TD_PlayerPawn.generated.h"
 
 class USpringArmComponent;
 class UCameraComponent;
 
+UENUM()
+enum class EReturnSuccess : uint8
+{
+    Success,
+    Failure
+};
 
+USTRUCT(BlueprintType)
+struct FMSEntityViewBPWrapper
+{
+    GENERATED_BODY()
+
+    FMSEntityViewBPWrapper() = default;
+
+    FMSEntityViewBPWrapper(const FMassArchetypeHandle& Archetype, FMassEntityHandle EntityHandle)
+    {
+        EntityView = FMassEntityView(Archetype, EntityHandle);
+    }
+
+    FMSEntityViewBPWrapper(const FMassEntityManager& Manager, FMassEntityHandle EntityHandle)
+    {
+        EntityView = FMassEntityView(Manager, EntityHandle);
+    }
+
+    FMassEntityView EntityView;
+};
 
 UCLASS()
 class ATD_PlayerPawn : public APawn
@@ -51,6 +77,13 @@ public:
     void ToggleEnableMovement(bool Enable);
 
 
+    UFUNCTION(BlueprintCallable, BlueprintImplementableEvent)
+    void ActivateItemPressedBP();
+
+    UFUNCTION(
+        BlueprintCallable, Category = "Mass", meta = (ExpandEnumAsExecs = "ReturnBranch"))
+    FMSEntityViewBPWrapper SpawnEntityFromEntityConfig(UMassEntityConfigAsset* MassEntityConfig, EReturnSuccess& ReturnBranch);
+
 private:
     void SetupInputComponent();
     void SetMouseClickedLeftOn();
@@ -58,6 +91,7 @@ private:
     void SetMouseClickedRightOn();
     void SetMouseClickedRightOff();
     void JumpPressed();
+    void ActivateItemPressed();
     void JumpReleased();
     void OnPressed();
 
