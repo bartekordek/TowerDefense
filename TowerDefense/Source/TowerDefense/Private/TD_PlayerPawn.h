@@ -84,6 +84,12 @@ public:
         BlueprintCallable, Category = "Mass", meta = (ExpandEnumAsExecs = "ReturnBranch"))
     FMSEntityViewBPWrapper SpawnEntityFromEntityConfig(UMassEntityConfigAsset* MassEntityConfig, EReturnSuccess& ReturnBranch);
 
+    UFUNCTION(BlueprintCallable, Category = "Mass")
+    void SetEntityTransform(const FMSEntityViewBPWrapper EntityHandle, const FTransform Transform);
+
+    UFUNCTION(BlueprintCallable, Category = "Mass")
+    void SetEntityVelocity(FMSEntityViewBPWrapper EntityHandle, FVector Velocity);
+
 private:
     void SetupInputComponent();
     void SetMouseClickedLeftOn();

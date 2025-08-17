@@ -11,7 +11,7 @@ AEnemyWaypoint::AEnemyWaypoint()
 
     BaseMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Base Mesh"));
     BaseMesh->SetupAttachment(RootComponent);
-
+    RootComponent = BaseMesh;
 }
 
 // Called when the game starts or when spawned

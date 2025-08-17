@@ -12,6 +12,8 @@
 #include "MassEntityConfigAsset.h"
 #include "MassEntitySubsystem.h"
 #include "MassSpawnerSubsystem.h"
+#include "MassCommonFragments.h"
+#include "MassMovementFragments.h"
 
 // Sets default values
 ATD_PlayerPawn::ATD_PlayerPawn()
@@ -246,6 +248,33 @@ FMSEntityViewBPWrapper ATD_PlayerPawn::SpawnEntityFromEntityConfig(
     ReturnBranch = EReturnSuccess::Success;
 
     return NewEntityWrapper;
+}
+
+void ATD_PlayerPawn::SetEntityTransform(const FMSEntityViewBPWrapper EntityHandle, const FTransform Transform)
+{
+    if (!EntityHandle.EntityView.IsValid())
+    {
+        UE_LOG(LogTemp, Error, TEXT("Passed in an invalid Entity to SetEntityTransform"));
+        return;
+    }
+
+    if (FTransformFragment* TransformFragment = EntityHandle.EntityView.GetFragmentDataPtr<FTransformFragment>())
+    {
+        TransformFragment->SetTransform(Transform);
+    }
+}
+
+void ATD_PlayerPawn::SetEntityVelocity(const FMSEntityViewBPWrapper EntityHandle, const FVector Velocity)
+{
+    if (!EntityHandle.EntityView.IsValid())
+    {
+        return;
+    };
+
+    if (auto MassFragmentPtr = EntityHandle.EntityView.GetFragmentDataPtr<FMassVelocityFragment>())
+    {
+        MassFragmentPtr->Value = Velocity;
+    }
 }
 
 void ATD_PlayerPawn::JumpPressed()
